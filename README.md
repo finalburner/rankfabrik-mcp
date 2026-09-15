@@ -11,6 +11,19 @@ quelle — clés, quotas, comptage et facturation restent ceux de l'API existant
 > un produit, l'outil concerné vous rend un message d'activation — jamais une
 > erreur brute.
 
+## Installer en un clic
+
+[![Ajouter à Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=rankfabrik&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInJhbmtmYWJyaWstbWNwIl0sImVudiI6eyJSQU5LRkFCUklLX0FQSV9LRVkiOiIifX0=)
+
+Via **Smithery** (installe et configure le serveur dans le client de votre choix) :
+
+```bash
+npx -y @smithery/cli install rankfabrik-mcp --client claude
+```
+
+`--client` accepte aussi `cursor`, `cline`, `windsurf`… Réglage manuel par client
+plus bas dans **[Installer dans un client](#installer-dans-un-client)**.
+
 ## Outils
 
 ### Captions — transcription YouTube
@@ -70,29 +83,15 @@ surcharger cible et clé produit par produit : `RANKFABRIK_<PRODUIT>_URL` et
 `RANKFABRIK_<PRODUIT>_KEY` (ex. `RANKFABRIK_PLACES_KEY`). `RANKFABRIK_BASE_URL`
 reste accepté comme alias historique de la cible Captions.
 
-## Démarrer
+## Installer dans un client
 
-### En local (stdio) — clients de bureau et directories
+Tous les clients de bureau lancent le serveur en **stdio** via `npx` — aucun clone
+nécessaire. Remplacez `rf_xxx` par votre clé.
 
-```bash
-RANKFABRIK_API_KEY=rf_xxx node serveur.mjs
-```
+### Claude Desktop
 
-Dans un client MCP (exemple Claude Desktop / Cursor `mcpServers`) :
-
-```json
-{
-  "mcpServers": {
-    "rankfabrik": {
-      "command": "node",
-      "args": ["/chemin/vers/apis/mcp/serveur.mjs"],
-      "env": { "RANKFABRIK_API_KEY": "rf_xxx" }
-    }
-  }
-}
-```
-
-Ou, sans clone, via npx :
+Fichier `claude_desktop_config.json` (menu **Réglages → Développeur → Éditer la
+configuration**) :
 
 ```json
 {
@@ -104,6 +103,68 @@ Ou, sans clone, via npx :
     }
   }
 }
+```
+
+### Cursor
+
+Bouton **[Ajouter à Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=rankfabrik&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInJhbmtmYWJyaWstbWNwIl0sImVudiI6eyJSQU5LRkFCUklLX0FQSV9LRVkiOiIifX0=)**
+ci-dessus, ou fichier `.cursor/mcp.json` (projet) / `~/.cursor/mcp.json` (global) :
+
+```json
+{
+  "mcpServers": {
+    "rankfabrik": {
+      "command": "npx",
+      "args": ["-y", "rankfabrik-mcp"],
+      "env": { "RANKFABRIK_API_KEY": "rf_xxx" }
+    }
+  }
+}
+```
+
+### Cline
+
+Via l'UI **MCP Servers → Configure** (édite `cline_mcp_settings.json`) :
+
+```json
+{
+  "mcpServers": {
+    "rankfabrik": {
+      "command": "npx",
+      "args": ["-y", "rankfabrik-mcp"],
+      "env": { "RANKFABRIK_API_KEY": "rf_xxx" },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+### Continue
+
+MCP fonctionne en **mode agent**. Fichier `.continue/mcpServers/rankfabrik.yaml`
+(workspace) ou sous `~/.continue/` (global) :
+
+```yaml
+name: RankFabrik
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: RankFabrik
+    command: npx
+    args:
+      - "-y"
+      - "rankfabrik-mcp"
+    env:
+      RANKFABRIK_API_KEY: ${{ secrets.RANKFABRIK_API_KEY }}
+```
+
+## Démarrer (dev / auto-hébergé)
+
+Depuis un clone, en stdio :
+
+```bash
+RANKFABRIK_API_KEY=rf_xxx node serveur.mjs
 ```
 
 ### À distance (Streamable HTTP)

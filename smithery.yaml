@@ -1,0 +1,53 @@
+# Fichier de configuration Smithery — serveur MCP stdio « rankfabrik-mcp ».
+# Format : startCommand de type stdio (schéma de config + fabrique de commande).
+# Réf. doc Smithery (build/publish, index llms.txt) vérifiée le 2026-09-15.
+#
+# Smithery lit ce fichier pour : (1) générer l'UI de configuration de la page du
+# serveur, (2) savoir comment lancer le binaire en stdio chez l'utilisateur.
+
+startCommand:
+  # stdio : le serveur tourne en local chez l'utilisateur, la clé est fournie
+  # en variable d'environnement (jamais stockée côté Smithery).
+  type: stdio
+
+  # Schéma JSON des options de configuration exposées dans l'UI Smithery.
+  # Seule la clé API est obligatoire ; le reste a des valeurs par défaut.
+  configSchema:
+    type: object
+    required:
+      - rankfabrikApiKey
+    properties:
+      rankfabrikApiKey:
+        type: string
+        title: Clé API RankFabrik (fédérée, 4 produits)
+        description: >-
+          Clé d'accès « rf_… » présentée aux 4 API RankFabrik — Captions,
+          Places, Jobs, Verify (obligatoire). Clé d'essai gratuite (500
+          unités/mois, sans carte) sur rankfabrik.com/tarifs. Transmise en
+          en-tête à l'API de prod. Si la clé ne couvre pas encore un produit,
+          l'outil concerné renvoie un message d'activation au lieu d'échouer.
+      rankfabrikEnTeteCle:
+        type: string
+        title: Nom de l'en-tête portant la clé
+        description: En-tête HTTP dans lequel la clé est envoyée à l'API.
+        default: x-cle-api
+    additionalProperties: false
+
+  # Fabrique JS : à partir de la config validée, produit la commande stdio.
+  # On lance « node serveur.mjs » et on injecte la clé fédérée. On ne fixe PAS
+  # de RANKFABRIK_BASE_URL : chaque produit garde son sous-domaine par défaut
+  # (captions/places/jobs/verify.rankfabrik.com). Le transport reste stdio :
+  # on ne définit ni MCP_TRANSPORT ni PORT.
+  commandFunction: |-
+    (config) => ({
+      command: 'node',
+      args: ['serveur.mjs'],
+      env: {
+        RANKFABRIK_API_KEY: config.rankfabrikApiKey,
+        RANKFABRIK_EN_TETE_CLE: config.rankfabrikEnTeteCle || 'x-cle-api'
+      }
+    })
+
+  # Config d'exemple affichée dans l'UI (valeur factice, non fonctionnelle).
+  exampleConfig:
+    rankfabrikApiKey: rf_exemple_de_cle

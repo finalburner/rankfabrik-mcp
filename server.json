@@ -1,0 +1,60 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.finalburner/rankfabrik-mcp",
+  "title": "RankFabrik",
+  "description": "Canal MCP de RankFabrik : les 4 produits de donnees (Captions/transcription YouTube, Places/etablissements, Jobs/emplois, Verify/verification d'e-mails) en proxy mince vers les API REST facturees. Une seule cle federee pour les 4.",
+  "websiteUrl": "https://rankfabrik.com",
+  "repository": {
+    "url": "https://github.com/finalburner/rankfabrik-mcp",
+    "source": "github"
+  },
+  "version": "2.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "rankfabrik-mcp",
+      "version": "2.0.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "RANKFABRIK_API_KEY",
+          "description": "Cle federee rf_ presentee aux 4 API RankFabrik (obligatoire). Une cle d'essai gratuite (500 unites/mois, sans carte) s'obtient sur rankfabrik.com/tarifs. Si une cle ne couvre pas encore un produit, l'outil concerne rend un message d'activation au lieu d'echouer.",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "RANKFABRIK_URL_CLE",
+          "description": "URL affichee dans les messages d'onboarding pour obtenir/activer une cle.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "https://rankfabrik.com/tarifs"
+        },
+        {
+          "name": "RANKFABRIK_EN_TETE_CLE",
+          "description": "Nom de l'en-tete HTTP portant la cle API.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "x-cle-api"
+        },
+        {
+          "name": "MCP_TRANSPORT",
+          "description": "Transport MCP : stdio (defaut) ou http (Streamable HTTP).",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "stdio"
+        },
+        {
+          "name": "PORT",
+          "description": "Port d'ecoute en transport http.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "8090"
+        }
+      ]
+    }
+  ]
+}

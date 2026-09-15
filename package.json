@@ -1,0 +1,47 @@
+{
+  "name": "rankfabrik-mcp",
+  "version": "2.0.0",
+  "mcpName": "io.github.finalburner/rankfabrik-mcp",
+  "description": "Canal MCP de RankFabrik : les 4 APIs de données publiques (Captions/transcription YouTube, Places/établissements, Jobs/emplois, Verify/vérification d'e-mails) exposées comme outils MCP. Serveur mince qui appelle les façades REST facturées.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "youtube",
+    "transcript",
+    "transcription",
+    "subtitles",
+    "captions",
+    "places",
+    "local-business",
+    "jobs",
+    "email-verification",
+    "rankfabrik"
+  ],
+  "type": "module",
+  "bin": {
+    "rankfabrik-mcp": "serveur.mjs"
+  },
+  "main": "serveur.mjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "ISC",
+  "author": "RankFabrik",
+  "homepage": "https://rankfabrik.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finalburner/rankfabrik-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/finalburner/rankfabrik-mcp/issues"
+  },
+  "files": [
+    "serveur.mjs",
+    "README.md",
+    ".env.exemple"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.19.1",
+    "zod": "^3.25.76"
+  }
+}

@@ -1,0 +1,22 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RankFabrik">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#243349"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb7185"/>
+      <stop offset="1" stop-color="#e11d5b"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="400" height="400" rx="72" fill="url(#bg)"/>
+  <!-- 4 briques = 4 API fédérées ; la corail = la clé unique -->
+  <g>
+    <rect x="96"  y="96"  width="96" height="96" rx="20" fill="#f5f2ea"/>
+    <rect x="208" y="96"  width="96" height="96" rx="20" fill="#dcd5c4"/>
+    <rect x="96"  y="208" width="96" height="96" rx="20" fill="#c9c0ab"/>
+    <rect x="208" y="208" width="96" height="96" rx="20" fill="url(#accent)"/>
+  </g>
+  <!-- pontet reliant la clé aux 4 -->
+  <circle cx="256" cy="256" r="15" fill="#1e293b" opacity="0.35"/>
+</svg>
